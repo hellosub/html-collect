@@ -87,7 +87,6 @@ public class BasicCrawler extends WebCrawler {
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
-        logger.debug("***********" + href);
         
         // Ignore the url if it has an extension that matches our defined set of image extensions.
         if (IMAGE_EXTENSIONS.matcher(href).matches()) {
@@ -97,6 +96,8 @@ public class BasicCrawler extends WebCrawler {
 
         if (href.startsWith(strTargetUrl)) {
             HttpGet request = new HttpGet(href);
+            
+            logger.debug("!!!!!! Found the site we are looking for ==> " + strTargetUrl);
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {
 
@@ -128,6 +129,7 @@ public class BasicCrawler extends WebCrawler {
         }
         for (int i = 0; i < strShouldVisit.length; i++) {
         	 if (href.startsWith(strShouldVisit[i])) {
+        		 logger.debug("!!!!!! ShouldVisit matched ==> " + strShouldVisit[i]);
         		 return true;
         	 }
         }
